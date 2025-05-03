@@ -8,4 +8,5 @@ import com.projects.billing.dtos.CategoryResponse;
 public interface CategoryService {
 	CategoryResponse add(CategoryRequest request);
 	List<CategoryResponse> getCategories();
+	void delete(String categoryId);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.projects.billing.dtos.CategoryRequest;
 import com.projects.billing.dtos.CategoryResponse;
@@ -20,6 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	private final CategoryRepository categoryRepository;
 	
+	@Transactional
 	@Override
 	public CategoryResponse add(CategoryRequest request) {
 		Category entity = convertToEntity(request);
@@ -66,6 +68,12 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		
 		return categoryResponses;
+	}
+
+	@Transactional
+	@Override
+	public void delete(String categoryId) {
+		this.categoryRepository.deleteByCategoryId(categoryId);
 	}
 
 }
