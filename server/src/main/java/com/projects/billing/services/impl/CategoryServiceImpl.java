@@ -1,5 +1,9 @@
 package com.projects.billing.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.projects.billing.dtos.CategoryRequest;
@@ -19,6 +23,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryResponse add(CategoryRequest request) {
 		Category entity = convertToEntity(request);
+		
+		final String categoryId = UUID.randomUUID().toString().replace("-", "");
+		entity.setCategoryId(categoryId);
 		
 		Category newCategory = this.categoryRepository.save(entity);
 		
@@ -45,6 +52,20 @@ public class CategoryServiceImpl implements CategoryService {
 				.createdAt(entity.getCreatedAt())
 				.updatedAt(entity.getUpdatedAt())
 				.build();
+	}
+
+	@Override
+	public List<CategoryResponse> getCategories() {
+		List<Category> categories = this.categoryRepository.findAll();
+		
+		List<CategoryResponse> categoryResponses = new ArrayList<>();
+		
+		for (Category category : categories) {
+			CategoryResponse categoryResponse = this.convertToResponse(category);
+			categoryResponses.add(categoryResponse);
+		}
+		
+		return categoryResponses;
 	}
 
 }
