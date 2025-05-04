@@ -37,13 +37,12 @@ public class FileUploadServiceImpl implements FileUploadService {
 				.builder()
 				.bucket(this.bucketName)
 				.key(key)
-				.acl("public-read")
 				.contentType(file.getContentType())
 				.build();
 
 			PutObjectResponse response = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
 			if (response.sdkHttpResponse().isSuccessful()) {
-				return "https://" + this.bucketName + ".s3.amazons.com/" + key;
+				return "https://s3.us-east-1.amazonaws.com/" + this.bucketName + "/" + key;
 			} else {
 				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error uploading file");
 			}

@@ -1,5 +1,7 @@
 package com.projects.billing.dtos;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,4 +15,5 @@ public class CategoryRequest {
 	private String name;
 	private String description;
 	private String bgColor;	
+	private MultipartFile photo;
 }

@@ -12,6 +12,7 @@ import com.projects.billing.dtos.CategoryResponse;
 import com.projects.billing.entities.Category;
 import com.projects.billing.repositories.CategoryRepository;
 import com.projects.billing.services.CategoryService;
+import com.projects.billing.services.FileUploadService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 	private final CategoryRepository categoryRepository;
 	
+	private final FileUploadService fileUploadService;
+	
 	@Transactional
 	@Override
 	public CategoryResponse add(CategoryRequest request) {
@@ -28,6 +31,9 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		final String categoryId = UUID.randomUUID().toString().replace("-", "");
 		entity.setCategoryId(categoryId);
+		
+		String photoUrl = this.fileUploadService.uploadFile(request.getPhoto());
+		entity.setImgUrl(photoUrl);
 		
 		Category newCategory = this.categoryRepository.save(entity);
 		
